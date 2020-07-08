@@ -7,6 +7,8 @@
 \alias{st_as_sfc.list}
 \alias{st_as_sfc.blob}
 \alias{st_as_sfc.bbox}
+\alias{st_as_sfc.sfc}
+\alias{st_as_sfc.sfg}
 \alias{st_as_sfc.WKB}
 \alias{st_as_sfc.raw}
 \alias{st_as_sfc.character}
@@ -33,6 +35,10 @@
 \method{st_as_sfc}{blob}(x, ...)
 
 \method{st_as_sfc}{bbox}(x, ...)
+
+\method{st_as_sfc}{sfc}(x, ...)
+
+\method{st_as_sfc}{sfg}(x, ...)
 
 \method{st_as_sfc}{WKB}(
   x,

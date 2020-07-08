@@ -158,8 +158,15 @@ sfg_is_empty = function(x) {
 #' @export
 #"[<-.sfc" = function (x, i, j, value) {
 "[<-.sfc" = function (x, i, value) {
-	if (is.null(value) || inherits(value, "sfg"))
+
+	# NULL becomes list(NULL), NA is left untouched
+	# all others are coerced to sfc using st_as_sfc
+	if (is.null(value)) {
 		value = list(value)
+	} else if (!is.logical(value)) {
+		value = st_as_sfc(value)
+	}
+
 	x = unclass(x) # becomes a list, but keeps attributes
 	ret = st_sfc(NextMethod())
 	structure(ret, n_empty = sum(vapply(ret, sfg_is_empty, TRUE)))
@@ -586,4 +593,16 @@ st_as_sfc.blob = function(x, ...) {
 st_as_sfc.bbox = function(x, ...) {
 	box = st_polygon(list(matrix(x[c(1, 2, 3, 2, 3, 4, 1, 4, 1, 2)], ncol = 2, byrow = TRUE)))
 	st_sfc(box, crs = st_crs(x))
+}
+
+#' @name st_as_sfc
+#' @export
+st_as_sfc.sfc = function(x,...) {
+	x
+}
+
+#' @name st_as_sfc
+#' @export
+st_as_sfc.sfg = function(x,...) {
+	st_sfc(x,...)
 }
